@@ -1,0 +1,21 @@
+A. If you already have a disk image (e.g., disk.img) and your script (data_carver.py)
+	python data_carver.py disk.img
+
+
+B. If you want to create a disk image and then carve it (Windows, using FTK Imager or Win32 Disk Imager for imaging, then Python for carving)
+	
+	python data_carver.py disk.img
+
+C. If you want a one-liner for PhotoRec (cross-platform, recovers deleted files from a physical drive or image):
+	
+	photorec /log /d recovered_files
+
+D. For Linux (create disk image and carve in one line):
+
+	sudo dd if=/dev/sdX of=disk.img bs=4M && python data_carver.py disk.img
+
+Summary Table
+Task	One-liner
+Carve disk image	python data_carver.py disk.img
+Use PhotoRec	photorec /log /d recovered_files
+(Linux) Image + carve	sudo dd if=/dev/sdX of=disk.img bs=4M && python data_carver.py disk.img
