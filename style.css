@@ -1,0 +1,477 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #f5f5f5;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Mobile App Container */
+.mobile-app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 414px;
+    margin: 0 auto;
+    background: #ffffff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+/* Mobile Header */
+.mobile-header {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    padding: 44px 20px 20px 20px; /* Extra padding for status bar */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.header-icon {
+    font-size: 24px;
+    margin-right: 12px;
+}
+
+.mobile-header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    flex: 1;
+}
+
+.logout-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.logout-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #4CAF50;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Main Content */
+.mobile-main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    padding-bottom: 80px; /* Space for bottom nav */
+}
+
+/* Quick Actions Section */
+.quick-actions {
+    margin-bottom: 30px;
+}
+
+.quick-actions h2 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.action-card {
+    background: white;
+    border: none;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid #f0f0f0;
+}
+
+.action-card:hover,
+.action-card:active {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(76,175,80,0.15);
+    border-color: #4CAF50;
+}
+
+.action-card i {
+    font-size: 28px;
+    color: #4CAF50;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.action-card span {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.action-card small {
+    color: #666;
+    font-size: 12px;
+}
+
+/* Advanced Search */
+.advanced-search {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.advanced-search h2 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-section {
+    margin-bottom: 20px;
+}
+
+.search-section h3 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.time-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.time-inputs input {
+    padding: 12px;
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.time-inputs input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.file-type-chips {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.chip {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 2px solid #f0f0f0;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+}
+
+.chip input[type="checkbox"] {
+    display: none;
+}
+
+.chip input[type="checkbox"]:checked + span {
+    color: #4CAF50;
+    font-weight: 600;
+}
+
+.chip input[type="checkbox"]:checked {
+    background: #4CAF50;
+}
+
+.chip:has(input:checked) {
+    border-color: #4CAF50;
+    background: #f8fff8;
+}
+
+.chip span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.primary-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.primary-btn:active {
+    transform: scale(0.98);
+}
+
+/* Results Section */
+.results-section {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.results-header h2 {
+    color: #333;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.close-btn {
+    background: #f5f5f5;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.close-btn:hover {
+    background: #e0e0e0;
+}
+
+.loading-indicator {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #4CAF50;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 12px;
+    background: #f9f9f9;
+    margin-bottom: 10px;
+    transition: background 0.2s;
+}
+
+.file-item:hover {
+    background: #f0f0f0;
+}
+
+.file-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #4CAF50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.file-icon i {
+    color: white;
+    font-size: 20px;
+}
+
+.file-info {
+    flex: 1;
+}
+
+.file-info h4 {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.file-info p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.file-info small {
+    color: #999;
+    font-size: 12px;
+}
+
+.recover-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.recover-btn:active {
+    transform: scale(0.9);
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    display: flex;
+    background: white;
+    border-top: 1px solid #f0f0f0;
+    padding: 12px 0 20px 0; /* Extra padding for home indicator */
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+}
+
+.nav-item {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #999;
+    font-size: 12px;
+    transition: color 0.2s;
+}
+
+.nav-item.active {
+    color: #4CAF50;
+}
+
+.nav-item i {
+    font-size: 20px;
+}
+
+.nav-item:hover {
+    color: #4CAF50;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .mobile-app {
+        max-width: 100%;
+        height: 100vh;
+    }
+    
+    .mobile-header {
+        padding-top: env(safe-area-inset-top, 44px);
+    }
+    
+    .bottom-nav {
+        padding-bottom: env(safe-area-inset-bottom, 20px);
+    }
+}/* Settings iframe should fill available height */
+#settingsSection {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+#settingsFrame {
+    flex: 1;
+    width: 100%;
+    border: none;
+}
