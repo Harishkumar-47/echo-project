@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Login - File Recovery App</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Login</h1>
+
+    <form method="POST" class="auth-form">
+      <label for="username">Username</label>
+      <input name="username" id="username" placeholder="Enter your username" required />
+
+      <label for="password">Password</label>
+      <input name="password" id="password" type="password" placeholder="Enter your password" required />
+
+      <button type="submit">Login</button>
+    </form>
+
+    <p class="auth-link">
+      New user? <a href="/register">Register here</a>
+    </p>
+  </div>
+</body>
+</html>
