@@ -1,0 +1,87 @@
+{
+  "JPEG": {
+    "header": "ffd8ffe0",
+    "footer": "ffd9",
+    "extension": "jpg",
+    "max_size": 5242880
+  },
+  "PNG": {
+    "header": "89504e470d0a1a0a",
+    "footer": "49454e44ae426082",
+    "extension": "png",
+    "max_size": 5242880
+  },
+  "GIF": {
+    "header": "474946383961",
+    "footer": "003b",
+    "extension": "gif",
+    "max_size": 2097152
+  },
+  "PDF": {
+    "header": "25504446",
+    "footer": "2525454f460a",
+    "extension": "pdf",
+    "max_size": 10485760
+  },
+  "ZIP": {
+    "header": "504b0304",
+    "footer": "504b0506",
+    "extension": "zip",
+    "max_size": 10485760
+  },
+  "DOCX": {
+    "header": "504b0304",
+    "extension": "docx",
+    "max_size": 10485760
+  },
+  "XLSX": {
+    "header": "504b0304",
+    "extension": "xlsx",
+    "max_size": 10485760
+  },
+  "PPTX": {
+    "header": "504b0304",
+    "extension": "pptx",
+    "max_size": 10485760
+  },
+  "MP3": {
+    "header": "494433",
+    "extension": "mp3",
+    "max_size": 15728640
+  },
+  "MP4": {
+    "header": "00000018667479706d70",
+    "extension": "mp4",
+    "max_size": 20971520
+  },
+  "MOV": {
+    "header": "00000014667479707174",
+    "extension": "mov",
+    "max_size": 20971520
+  },
+  "AVI": {
+    "header": "52494646",
+    "extension": "avi",
+    "max_size": 20971520
+  },
+  "WAV": {
+    "header": "52494646",
+    "extension": "wav",
+    "max_size": 10485760
+  },
+  "EXE": {
+    "header": "4d5a",
+    "extension": "exe",
+    "max_size": 10485760
+  },
+  "RAR": {
+    "header": "526172211a07",
+    "extension": "rar",
+    "max_size": 10485760
+  },
+  "7Z": {
+    "header": "377abcaf271c",
+    "extension": "7z",
+    "max_size": 10485760
+  }
+}
