@@ -1,179 +1,104 @@
-// Login functionality
-document.addEventListener('DOMContentLoaded', function() {
-    initializeLoginForm();
+async function loadDrives() {
+  try {
+    const res = await fetch("/api/drives");
+    const data = await res.json();
+    const select = document.getElementById("device_path");
+    select.innerHTML = "";
+
+    data.drives.forEach(drive => {
+      const option = document.createElement("option");
+      option.value = drive;
+      option.textContent = drive;
+      select.appendChild(option);
+    });
+  } catch (err) {
+    console.error("Failed to load drives:", err);
+  }
+}
+
+async function scanUnified() {
+  const mode = document.getElementById("scan_mode").value;
+  const device_path = document.getElementById("device_path").value.trim();
+  const fileType = document.getElementById("file_type").value.trim();
+  const start_date = document.getElementById("start_date").value;
+  const end_date = document.getElementById("end_date").value;
+  const nameFilter = document.getElementById("name_filter").value.trim();
+  const minSize = parseInt(document.getElementById("min_size").value) || 512;
+  const statusEl = document.getElementById("status");
+
+  statusEl.textContent = `Scanning (${mode})...`;
+
+  let endpoint = mode === "deleted" ? "/api/deleted_scan" : "/api/scan";
+  let payload = {
+    image_path: device_path,
+    extension: fileType || "jpg",
+    start_date: start_date || null,
+    end_date: end_date || null
+  };
+
+  if (mode === "deleted") {
+    payload = {
+      image_path: device_path,
+      extensions: fileType ? [fileType] : [],
+      start_date: start_date || null,
+      end_date: end_date || null,
+      min_size: minSize,
+      name_filter: nameFilter || null
+    };
+  }
+
+  try {
+    const resp = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await resp.json();
+    if (!resp.ok) {
+      statusEl.textContent = "Error: " + (data.error || "Unknown error");
+      return;
+    }
+
+    statusEl.textContent = `Recovered ${data.count} file(s).`;
+    renderResults(data.results);
+  } catch (e) {
+    statusEl.textContent = "Error: " + e.message;
+  }
+}
+
+function renderResults(results) {
+  const tbody = document.querySelector("#results-table tbody");
+  tbody.innerHTML = "";
+  results.forEach(r => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${r.filename}</td>
+      <td>${r.type}</td>
+      <td>${(r.size / 1024).toFixed(1)} KB</td>
+      <td>${r.mtime || "—"}</td>
+      <td><a href="/downloads/${encodeURIComponent(r.filename)}" download>Download</a></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+function runDeepCarve(imagePath, tool = "photorec") {
+    fetch("/api/deep_carve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image_path: imagePath, tool: tool })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Deep carve results:", data.results);
+        // TODO: Display results in your UI
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadDrives();
+  document.getElementById("scan-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    scanUnified();
+  });
 });
-
-function initializeLoginForm() {
-    const loginForm = document.getElementById('loginForm');
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', handleLogin);
-    }
-    
-    // Add interactive effects to form elements
-    setupInputEffects();
-    setupCloudProviderSelection();
-}
-
-function setupInputEffects() {
-    const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
-    
-    inputs.forEach(input => {
-        input.addEventListener('focus', function() {
-            this.parentElement.classList.add('focused');
-        });
-        
-        input.addEventListener('blur', function() {
-            if (!this.value) {
-                this.parentElement.classList.remove('focused');
-            }
-        });
-    });
-}
-
-function setupCloudProviderSelection() {
-    const cloudOptions = document.querySelectorAll('input[name="cloudProvider"]');
-    
-    cloudOptions.forEach(option => {
-        option.addEventListener('change', function() {
-            // Remove selected class from all options
-            document.querySelectorAll('.cloud-option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
-            // Add selected class to current option
-            if (this.checked) {
-                this.closest('.cloud-option').classList.add('selected');
-            }
-        });
-    });
-}
-
-function handleLogin(event) {
-    event.preventDefault();
-    
-    // Get form values
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const cloudProvider = document.querySelector('input[name="cloudProvider"]:checked');
-    
-    // Basic validation
-    if (!username || !password) {
-        showError('Please enter both username and password.');
-        return;
-    }
-    
-    if (!cloudProvider) {
-        showError('Please select a cloud provider.');
-        return;
-    }
-    
-    // Show loading state
-    showLoginLoading();
-    
-    // Simulate login process
-    setTimeout(() => {
-        hideLoginLoading();
-        
-        // For demo purposes, always "succeed" the login
-        showSuccess(`Connecting to ${cloudProvider.value}...`);
-        
-        // Redirect to dashboard after success
-        setTimeout(() => {
-            window.location.href = '../demo.html';
-        }, 2000);
-        
-    }, 2000);
-}
-
-function showLoginLoading() {
-    const loginBtn = document.querySelector('.login-btn');
-    const originalHTML = loginBtn.innerHTML;
-    
-    loginBtn.disabled = true;
-    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
-    loginBtn.dataset.originalHtml = originalHTML;
-}
-
-function hideLoginLoading() {
-    const loginBtn = document.querySelector('.login-btn');
-    const originalHTML = loginBtn.dataset.originalHtml;
-    
-    loginBtn.disabled = false;
-    loginBtn.innerHTML = originalHTML;
-}
-
-function showError(message) {
-    showNotification(message, 'error');
-}
-
-function showSuccess(message) {
-    showNotification(message, 'success');
-}
-
-function showNotification(message, type) {
-    // Remove existing notifications
-    const existingNotif = document.querySelector('.notification');
-    if (existingNotif) {
-        existingNotif.remove();
-    }
-    
-    // Create notification
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.innerHTML = `
-        <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
-        <span>${message}</span>
-    `;
-    
-    // Style the notification
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: ${type === 'error' ? '#f44336' : '#4CAF50'};
-        color: white;
-        padding: 12px 20px;
-        border-radius: 25px;
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        animation: slideDown 0.3s ease;
-        font-size: 14px;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Remove after 4 seconds
-    setTimeout(() => {
-        notification.remove();
-    }, 4000);
-}
-
-// Add animation CSS
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-    }
-    
-    .input-group.focused {
-        transform: scale(1.02);
-    }
-    
-    .cloud-option.selected {
-        transform: scale(1.02);
-        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
-    }
-`;
-document.head.appendChild(style);
